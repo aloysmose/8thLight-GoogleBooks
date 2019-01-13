@@ -1,25 +1,52 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import './App.css';
 
 class App extends Component {
+  constructor() {
+    super();
+    this.state = {
+      query: '',
+    };
+    this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleChange = this.handleChange.bind(this);
+  }
+
+  formatQuery(input) {
+    return input
+      .toLowerCase()
+      .split(' ')
+      .join('+');
+  }
+
+  handleSubmit(event) {
+    event.preventDefault();
+    const { query } = this.state;
+    console.log(this.formatQuery(query));
+    this.setState({
+      query: '',
+    });
+  }
+
+  handleChange(event) {
+    this.setState({
+      query: event.target.value,
+    });
+  }
+
   render() {
     return (
       <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
+        <h1>Search</h1>
+        <form onSubmit={this.handleSubmit}>
+          <label htmlFor="query">Search:</label>
+          <input
+            type="text"
+            name="query"
+            value={this.state.query}
+            onChange={this.handleChange}
+          />
+          <button type="submit">Search</button>
+        </form>
       </div>
     );
   }
