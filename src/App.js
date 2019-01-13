@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import './App.css';
+import axios from 'axios';
 
 class App extends Component {
   constructor() {
@@ -18,10 +19,13 @@ class App extends Component {
       .join('+');
   }
 
-  handleSubmit(event) {
+  async handleSubmit(event) {
     event.preventDefault();
     const { query } = this.state;
-    console.log(this.formatQuery(query));
+    // console.log(this.formatQuery(query));
+    const response = await this.handleRequest(query);
+
+    console.log(response.data.items);
     this.setState({
       query: '',
     });
@@ -31,6 +35,13 @@ class App extends Component {
     this.setState({
       query: event.target.value,
     });
+  }
+
+  async handleRequest(query) {
+    let response = await axios.get(
+      `https://www.googleapis.com/books/v1/volumes?q=${this.formatQuery(query)}`
+    );
+    return response;
   }
 
   render() {
