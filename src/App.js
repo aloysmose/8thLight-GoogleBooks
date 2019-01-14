@@ -14,6 +14,7 @@ class App extends Component {
     this.handleChange = this.handleChange.bind(this);
   }
 
+  // format query properly for URI
   formatQuery(input) {
     return input
       .toLowerCase()
@@ -29,7 +30,6 @@ class App extends Component {
       results: response.data.items,
       query: '',
     })
-    console.log(this.state.results);
   }
 
   handleChange(event) {
@@ -49,9 +49,9 @@ class App extends Component {
     const { results } = this.state;
     return (
       <div className="App">
-        <h1>Search</h1>
+        <h1>Book Search</h1>
         <form onSubmit={this.handleSubmit}>
-          <label htmlFor="query">Search:</label>
+
           <input
             type="text"
             name="query"
@@ -60,6 +60,7 @@ class App extends Component {
           />
           <button type="submit">Search</button>
         </form>
+        {/* Displays book results as long as there are results on state*/}
         <div className="results">
           { results.length ? (
             results.map( book => (
