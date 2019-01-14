@@ -7,6 +7,7 @@ class App extends Component {
     super();
     this.state = {
       query: '',
+      results: [],
     };
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
@@ -22,13 +23,12 @@ class App extends Component {
   async handleSubmit(event) {
     event.preventDefault();
     const { query } = this.state;
-    // console.log(this.formatQuery(query));
     const response = await this.handleRequest(query);
-
-    console.log(response.data.items);
     this.setState({
+      results: response.data.items,
       query: '',
-    });
+    })
+    console.log(this.state.results);
   }
 
   handleChange(event) {
@@ -45,6 +45,7 @@ class App extends Component {
   }
 
   render() {
+    const { results } = this.state;
     return (
       <div className="App">
         <h1>Search</h1>
@@ -58,6 +59,22 @@ class App extends Component {
           />
           <button type="submit">Search</button>
         </form>
+        <div className="results">
+          { results.length ? (
+            results.map( book => (
+              <div key={book.id} className='bookResult'>
+                <p>{book.volumeInfo.title}</p>
+                <p>written by</p>
+                { book.volumeInfo.authors.map( author => (
+                  <p key={author}>{author}</p>
+                ))}
+              </div>
+
+            ))
+          ) : null
+
+          }
+        </div>
       </div>
     );
   }
