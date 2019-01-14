@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import './App.css';
+import { Book } from './Components'
 import axios from 'axios';
 
 class App extends Component {
@@ -62,17 +63,9 @@ class App extends Component {
         <div className="results">
           { results.length ? (
             results.map( book => (
-              <div key={book.id} className='bookResult'>
-                <p>{book.volumeInfo.title}</p>
-                <p>written by</p>
-                { book.volumeInfo.authors.map( author => (
-                  <p key={author}>{author}</p>
-                ))}
-              </div>
-
+              <Book key={book.id} book={book}/>
             ))
           ) : null
-
           }
         </div>
       </div>
