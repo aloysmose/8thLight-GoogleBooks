@@ -40,7 +40,7 @@ class App extends Component {
 
   async handleRequest(query) {
     let response = await axios.get(
-      `https://www.googleapis.com/books/v1/volumes?q=${this.formatQuery(query)}`
+      `https://www.googleapis.com/books/v1/volumes?q=${this.formatQuery(query)}&startIndex=0`
     );
     return response;
   }
