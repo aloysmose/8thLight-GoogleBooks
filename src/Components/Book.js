@@ -8,7 +8,7 @@ const Book = props => {
       <h3><a href={book.volumeInfo.previewLink}>{book.volumeInfo.title}</a></h3>
       <p>by {book.volumeInfo.authors.join(', ')}</p>
       {book.volumeInfo.imageLinks ? (
-        <img src={book.volumeInfo.imageLinks.thumbnail} alt='thumbnail' />
+        <a href={book.volumeInfo.previewLink}><img src={book.volumeInfo.imageLinks.thumbnail} alt='thumbnail' /></a>
       ) : <p>Image not available</p>}
       {book.volumeInfo.publisher && (
         <p>Published by {book.volumeInfo.publisher}</p>

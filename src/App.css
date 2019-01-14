@@ -2,6 +2,22 @@
   text-align: center;
 }
 
+form {
+  margin-bottom: 1rem;
+}
+
+.results {
+  display: flex;
+  /* background-color: tomato; */
+  width: 100%;
+  align-items: center;
+  flex-direction: column;
+}
+
 .bookResult {
   background-color: #e5e5e5;
+  width: 35%;
+  padding: 1rem;
+  margin: 1.5rem 0;
+  max-width: 500px;
 }
