@@ -29,11 +29,9 @@ class App extends Component {
     const response = await this.handleRequest(query);
 
     this.setState({
-      results: response.data.items,
+      results: response,
       query: '',
     });
-
-    console.log(response.data.items);
   }
 
   // Update state every time the input value changes
@@ -44,12 +42,19 @@ class App extends Component {
   }
 
   async handleRequest(query) {
-    let response = await axios.get(
-      `https://www.googleapis.com/books/v1/volumes?q=${this.formatQuery(
-        query
-      )}&startIndex=0`
-    );
-    return response;
+    try {
+      let response = await axios.get(
+        `https://www.googleapis.com/books/v1/volumes?q=${this.formatQuery(
+          query
+        )}&startIndex=0`
+      );
+
+      /*  Only return the actual items, this way if there's an error, the handleSubmit function won't be trying to grab .data.items off an object that doens't exist*/
+
+      return response.data.items;
+    } catch (error) {
+      return 'error';
+    }
   }
 
   render() {
@@ -68,6 +73,7 @@ class App extends Component {
         </form>
         {/* Displays book results as long as there are results on state*/}
         <div className="results">
+          {/* Make sure that there is an array of results, otherwise it means there were no results sent back */}
           {Array.isArray(results) ? (
             results.map(book => <Book key={book.id} book={book} />)
           ) : (
