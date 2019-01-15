@@ -21,18 +21,20 @@ class App extends Component {
       .split(' ')
       .join('+');
   }
-
+  // Grab results from Google Books API using the user-input query, then put the results on state and clear the query field
   async handleSubmit(event) {
     event.preventDefault();
     const { query } = this.state;
+
     const response = await this.handleRequest(query);
+
     this.setState({
       results: response.data.items,
       query: '',
     });
-    console.log(response.data.items);
   }
 
+  // Update state every time the input value changes
   handleChange(event) {
     this.setState({
       query: event.target.value,
@@ -52,7 +54,7 @@ class App extends Component {
     const { results } = this.state;
     return (
       <div className="App">
-        <h1>Book Search</h1>
+        <h1>Find your next book</h1>
         <form onSubmit={this.handleSubmit}>
           <input
             type="text"
