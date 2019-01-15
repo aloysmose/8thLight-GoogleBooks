@@ -32,6 +32,8 @@ class App extends Component {
       results: response.data.items,
       query: '',
     });
+
+    console.log(response.data.items);
   }
 
   // Update state every time the input value changes
@@ -66,9 +68,11 @@ class App extends Component {
         </form>
         {/* Displays book results as long as there are results on state*/}
         <div className="results">
-          {results.length
-            ? results.map(book => <Book key={book.id} book={book} />)
-            : null}
+          {Array.isArray(results) ? (
+            results.map(book => <Book key={book.id} book={book} />)
+          ) : (
+            <p className="grey">'No matching results. Try again.'</p>
+          )}
         </div>
       </div>
     );

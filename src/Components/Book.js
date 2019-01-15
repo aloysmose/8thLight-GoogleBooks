@@ -2,7 +2,6 @@ import React from 'react'; // eslint-disable-line no-unused-vars
 
 const Book = props => {
   const { book } = props;
-  const { thumbnail } = book.volumeInfo.imageLinks;
   const convertToHttps = link => {
     return 'https' + link.slice(4);
   };
@@ -19,7 +18,10 @@ const Book = props => {
 
       {book.volumeInfo.imageLinks ? (
         <a href={book.volumeInfo.previewLink}>
-          <img src={convertToHttps(thumbnail)} alt="thumbnail" />
+          <img
+            src={convertToHttps(book.volumeInfo.imageLinks.thumbnail)}
+            alt="thumbnail"
+          />
         </a>
       ) : (
         <p className="grey">Image not available</p>
