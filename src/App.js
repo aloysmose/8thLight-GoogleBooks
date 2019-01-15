@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './App.css';
-import { Book } from './Components'
+import { Book } from './Components';
 import axios from 'axios';
 
 class App extends Component {
@@ -29,7 +29,8 @@ class App extends Component {
     this.setState({
       results: response.data.items,
       query: '',
-    })
+    });
+    console.log(response.data.items);
   }
 
   handleChange(event) {
@@ -40,7 +41,9 @@ class App extends Component {
 
   async handleRequest(query) {
     let response = await axios.get(
-      `https://www.googleapis.com/books/v1/volumes?q=${this.formatQuery(query)}&startIndex=0`
+      `https://www.googleapis.com/books/v1/volumes?q=${this.formatQuery(
+        query
+      )}&startIndex=0`
     );
     return response;
   }
@@ -51,7 +54,6 @@ class App extends Component {
       <div className="App">
         <h1>Book Search</h1>
         <form onSubmit={this.handleSubmit}>
-
           <input
             type="text"
             name="query"
@@ -62,12 +64,9 @@ class App extends Component {
         </form>
         {/* Displays book results as long as there are results on state*/}
         <div className="results">
-          { results.length ? (
-            results.map( book => (
-              <Book key={book.id} book={book}/>
-            ))
-          ) : null
-          }
+          {results.length
+            ? results.map(book => <Book key={book.id} book={book} />)
+            : null}
         </div>
       </div>
     );
