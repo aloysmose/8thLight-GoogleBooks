@@ -8,6 +8,7 @@ class App extends Component {
     super();
     this.state = {
       query: '',
+      currSearch: '',
       results: [],
     };
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -31,6 +32,7 @@ class App extends Component {
     this.setState({
       results: response,
       query: '',
+      currSearch: query,
     });
   }
 
@@ -71,11 +73,17 @@ class App extends Component {
           />
           <button type="submit">Search</button>
         </form>
-        {/* Displays book results as long as there are results on state*/}
         <div className="results">
           {/* Make sure that there is an array of results, otherwise it means there were no results sent back */}
           {Array.isArray(results) ? (
-            results.map(book => <Book key={book.id} book={book} />)
+            <React.Fragment>
+              {results.length ? (
+                <h3>Results for '{this.state.currSearch}'</h3>
+              ) : null}
+              {results.map(book => (
+                <Book key={book.id} book={book} />
+              ))}
+            </React.Fragment>
           ) : (
             <p className="grey">'No matching results. Try again.'</p>
           )}
