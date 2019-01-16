@@ -9,10 +9,12 @@ class App extends Component {
     this.state = {
       query: '',
       currSearch: '',
+      pageIdx: 0,
       results: [],
     };
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
+    this.getNewPage = this.getNewPage.bind(this);
   }
 
   // format query properly for URI
@@ -27,12 +29,12 @@ class App extends Component {
     event.preventDefault();
     const { query } = this.state;
 
-    const response = await this.handleRequest(query);
-
+    const response = await this.handleRequest(query, 0);
     this.setState({
       results: response,
       query: '',
       currSearch: query,
+      pageIdx: 0,
     });
   }
 
@@ -43,12 +45,25 @@ class App extends Component {
     });
   }
 
-  async handleRequest(query) {
+  async getNewPage(direction) {
+    let pageDiff;
+    direction === 'next' ? pageDiff = 1 : pageDiff = -1;
+    const newIdx = this.state.pageIdx + pageDiff;
+    const query = this.state.currSearch;
+    const response = await this.handleRequest(query, newIdx);
+    this.setState({
+      pageIdx: newIdx,
+      results: response
+    });
+    window.scrollTo(0, 0);
+  }
+
+  async handleRequest(query, idx) {
     try {
       let response = await axios.get(
         `https://www.googleapis.com/books/v1/volumes?q=${this.formatQuery(
           query
-        )}&startIndex=0`
+        )}&startIndex=${idx}`
       );
 
       /*  Only return the actual items, this way if there's an error, the handleSubmit function won't be trying to grab .data.items off an object that doens't exist*/
@@ -72,7 +87,7 @@ class App extends Component {
             value={this.state.query}
             onChange={this.handleChange}
           />
-          <button type="submit">Search</button>
+          <button type="submit" id="submit">Search</button>
         </form>
         <div className="results">
           {/* Make sure that there is an array of results, otherwise it means there were no results sent back */}
@@ -89,6 +104,15 @@ class App extends Component {
             <p className="grey">'No matching results. Try again.'</p>
           )}
         </div>
+        {Array.isArray(results) && results.length ? (
+          <div id='pageNav'>
+            {this.state.pageIdx !== 0 ? (
+              <button id='prev' onClick={() => { this.getNewPage('prev')}}>Back</button>
+            ) : null}
+
+            <button id='next' onClick={() => { this.getNewPage('next')}}>Next</button>
+          </div>
+        ) : null}
       </div>
     );
   }
