@@ -7,6 +7,7 @@
 
 form {
   margin-bottom: 1rem;
+  width: 80%;
   max-width: 500px;
 }
 
@@ -46,7 +47,10 @@ img {
   background-color: #fff;
   border-radius: 10px;
   box-shadow: 0 0px 15px rgba(0, 0, 0, 0.2);
-  width: 35%;
+  min-width: 160px;
+  max-width: 400px;
+  width: 80%;
+  box-sizing: border-box;
   padding: 1rem;
   margin: 1.5rem 0;
   max-width: 500px;
