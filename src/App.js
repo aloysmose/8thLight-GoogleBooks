@@ -66,6 +66,7 @@ class App extends Component {
         <h1>Find your next book</h1>
         <form onSubmit={this.handleSubmit}>
           <input
+          id='search'
             type="text"
             name="query"
             value={this.state.query}
