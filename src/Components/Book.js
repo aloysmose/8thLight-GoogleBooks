@@ -1,35 +1,25 @@
-import React from 'react'; // eslint-disable-line no-unused-vars
+import React from 'react';
+import ImageLink from './ImageLink';
+import TitleLink from './TitleLink';
+import Authors from './Authors';
+import Publisher from './Publisher';
 
 const Book = props => {
   const { book } = props;
-  const convertToHttps = link => {
-    return 'https' + link.slice(4);
-  };
 
   return (
     <div className="bookResult">
-      <h3>
-        <a href={book.volumeInfo.previewLink}>{book.volumeInfo.title}</a>
-      </h3>
+      <TitleLink book={book.volumeInfo} />
       {/* Display book information, guarding against missing info*/}
-      {book.volumeInfo.authors && (
-        <p className="italics">by {book.volumeInfo.authors.join(', ')}</p>
-      )}
+      {book.volumeInfo.authors && <Authors book={book.volumeInfo} />}
 
       {book.volumeInfo.imageLinks ? (
-        <a href={book.volumeInfo.previewLink}>
-          <img
-            src={convertToHttps(book.volumeInfo.imageLinks.thumbnail)}
-            alt="thumbnail"
-          />
-        </a>
+        <ImageLink book={book.volumeInfo} />
       ) : (
         <p className="grey">Image not available</p>
       )}
 
-      {book.volumeInfo.publisher && (
-        <p>Published by {book.volumeInfo.publisher}</p>
-      )}
+      {book.volumeInfo.publisher && <Publisher book={book.volumeInfo} />}
     </div>
   );
 };
