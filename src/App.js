@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
+import axios from 'axios';
 import './App.css';
 import { Book } from './Components';
-import axios from 'axios';
+import { formatQuery } from './utilities/utilFunctions';
 
 class App extends Component {
   constructor() {
@@ -17,18 +18,9 @@ class App extends Component {
     this.getNewPage = this.getNewPage.bind(this);
   }
 
-  // format query properly for URI
-  formatQuery(input) {
-    return input
-      .toLowerCase()
-      .split(' ')
-      .join('+');
-  }
-  // Grab results from Google Books API using the user-input query, then put the results on state and clear the query field
   async handleSubmit(event) {
     event.preventDefault();
     const { query } = this.state;
-
     const response = await this.handleRequest(query, 0);
     this.setState({
       results: response,
@@ -38,7 +30,6 @@ class App extends Component {
     });
   }
 
-  // Update state every time the input value changes
   handleChange(event) {
     this.setState({
       query: event.target.value,
@@ -47,13 +38,13 @@ class App extends Component {
 
   async getNewPage(direction) {
     let pageDiff;
-    direction === 'next' ? pageDiff = 1 : pageDiff = -1;
+    direction === 'next' ? (pageDiff = 1) : (pageDiff = -1);
     const newIdx = this.state.pageIdx + pageDiff;
     const query = this.state.currSearch;
     const response = await this.handleRequest(query, newIdx);
     this.setState({
       pageIdx: newIdx,
-      results: response
+      results: response,
     });
     window.scrollTo(0, 0);
   }
@@ -61,13 +52,10 @@ class App extends Component {
   async handleRequest(query, idx) {
     try {
       let response = await axios.get(
-        `https://www.googleapis.com/books/v1/volumes?q=${this.formatQuery(
+        `https://www.googleapis.com/books/v1/volumes?q=${formatQuery(
           query
         )}&startIndex=${idx}`
       );
-
-      /*  Only return the actual items, this way if there's an error, the handleSubmit function won't be trying to grab .data.items off an object that doens't exist*/
-
       return response.data.items;
     } catch (error) {
       return 'error';
@@ -81,16 +69,17 @@ class App extends Component {
         <h1>Find your next book</h1>
         <form onSubmit={this.handleSubmit}>
           <input
-          id='search'
+            id="search"
             type="text"
             name="query"
             value={this.state.query}
             onChange={this.handleChange}
           />
-          <button type="submit" id="submit">Search</button>
+          <button type="submit" id="submit">
+            Search
+          </button>
         </form>
         <div className="results">
-          {/* Make sure that there is an array of results, otherwise it means there were no results sent back */}
           {Array.isArray(results) ? (
             <React.Fragment>
               {results.length ? (
@@ -105,12 +94,26 @@ class App extends Component {
           )}
         </div>
         {Array.isArray(results) && results.length ? (
-          <div id='pageNav'>
+          <div id="pageNav">
             {this.state.pageIdx !== 0 ? (
-              <button id='prev' onClick={() => { this.getNewPage('prev')}}>Back</button>
+              <button
+                id="prev"
+                onClick={() => {
+                  this.getNewPage('prev');
+                }}
+              >
+                Back
+              </button>
             ) : null}
 
-            <button id='next' onClick={() => { this.getNewPage('next')}}>Next</button>
+            <button
+              id="next"
+              onClick={() => {
+                this.getNewPage('next');
+              }}
+            >
+              Next
+            </button>
           </div>
         ) : null}
       </div>
