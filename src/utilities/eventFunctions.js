@@ -21,7 +21,9 @@ export function handleChange(event) {
 
 export async function getNewPage(direction) {
   let pageDiff;
-  direction === 'next' ? (pageDiff = 1) : (pageDiff = -1);
+  direction === 'next'
+    ? (pageDiff = this.state.resultsPerPage)
+    : (pageDiff = this.state.resultsPerPage * -1);
   const newIdx = this.state.pageIdx + pageDiff;
   const query = this.state.currSearch;
   const response = await handleRequest(query, newIdx);

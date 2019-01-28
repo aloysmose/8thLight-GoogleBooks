@@ -15,6 +15,7 @@ class App extends Component {
       currSearch: '',
       pageIdx: 0,
       results: [],
+      resultsPerPage: 10,
     };
     this.handleSubmit = handleSubmit.bind(this);
     this.handleChange = handleChange.bind(this);
