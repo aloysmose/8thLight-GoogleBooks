@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './App.css';
-import { Book } from './Components';
+import { Book, PageNav } from './Components';
 import {
   handleSubmit,
   handleChange,
@@ -24,10 +24,10 @@ class App extends Component {
 
   render() {
     const { results } = this.state;
-    // const thisComponent = this;
     return (
       <div className="App">
         <h1>Find your next book</h1>
+
         <form onSubmit={this.handleSubmit}>
           <input
             id="search"
@@ -40,7 +40,9 @@ class App extends Component {
             Search
           </button>
         </form>
+
         <div className="results">
+          {/* Need to make sure that an array of results was returned from the API call, otherwise there was an error or no results */}
           {Array.isArray(results) ? (
             <React.Fragment>
               {results.length ? (
@@ -54,28 +56,9 @@ class App extends Component {
             <p className="grey">'No matching results. Try again.'</p>
           )}
         </div>
-        {Array.isArray(results) && results.length ? (
-          <div id="pageNav">
-            {this.state.pageIdx !== 0 ? (
-              <button
-                id="prev"
-                onClick={() => {
-                  this.getNewPage('prev');
-                }}
-              >
-                Back
-              </button>
-            ) : null}
 
-            <button
-              id="next"
-              onClick={() => {
-                this.getNewPage('next');
-              }}
-            >
-              Next
-            </button>
-          </div>
+        {Array.isArray(results) && results.length ? (
+          <PageNav pageIdx={this.state.pageIdx} getNewPage={this.getNewPage} />
         ) : null}
       </div>
     );

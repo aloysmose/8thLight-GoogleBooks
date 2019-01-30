@@ -11,7 +11,7 @@ describe('App Component', () => {
     ).toBe(true);
   });
   it('renders a search input', () => {
-    expect(shallow(<App />).find('#searchBox').length).toEqual(1);
+    expect(shallow(<App />).find('#search').length).toEqual(1);
   });
 });
 
