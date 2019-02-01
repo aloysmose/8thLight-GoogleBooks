@@ -46,7 +46,8 @@ The page should automatically open in your default web browser. If it doens't op
 
 ### Testing
 
-Two test suites are included. One to test that the `App` component renders correctly and updates state when characters are input into the search box, and one suite to test the `Book` component. This second suite tests that the `Book` component makes use of it's sub-components and renders correctly given a few edge cases.
+4 test suites are included. There are 3 to test the main components (`App`, `SearchBox`, and `Book`), and one to test that the `Book` component integrates with the `App` component properly.
+The integration test makes sure that searching for a query causes `Book` components to load, and the `Book` tests make sure that the `Book` component renders properly given a few edge cases.
 
 To run the tests, make sure you're in the application directory, and start the tests with:
 
