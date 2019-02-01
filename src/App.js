@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './App.css';
-import { Book, PageNav } from './Components';
+import { Book, PageNav, SearchBox } from './Components';
 import {
   handleSubmit,
   handleChange,
@@ -28,18 +28,11 @@ class App extends Component {
       <div className="App">
         <h1>Find your next book</h1>
 
-        <form onSubmit={this.handleSubmit}>
-          <input
-            id="search"
-            type="text"
-            name="query"
-            value={this.state.query}
-            onChange={this.handleChange}
-          />
-          <button type="submit" id="submit">
-            Search
-          </button>
-        </form>
+        <SearchBox
+          handleSubmit={this.handleSubmit}
+          query={this.state.query}
+          handleChange={this.handleChange}
+        />
 
         <div className="results">
           {/* Need to make sure that an array of results was returned from the API call, otherwise there was an error or no results */}
